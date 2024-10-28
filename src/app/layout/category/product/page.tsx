@@ -9,6 +9,8 @@ import React from "react";
 import { GoPlusCircle } from "react-icons/go";
 import { IoChevronDown } from "react-icons/io5";
 import ProductList from "../productList";
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 
 const page = () => {
   const { data: products, isLoading, isSuccess } = useGetAllProducts();

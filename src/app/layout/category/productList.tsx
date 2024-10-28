@@ -47,14 +47,17 @@ const ProductList = ({ products }: { products: IProduct[] }) => {
       <div className="my-4 grid grid-cols-3 gap-5 rounded-lg">
         {products.map((product: IProduct) => (
           <Link href={`/layout/category/product/${product.id}`}>
-            <div key={product.id} className="bg-white shadow-md rounded-md">
-              <div className="w-full">
+            <div
+              key={product.id}
+              className="bg-white shadow-md w-full h-auto rounded-md"
+            >
+              <div className="w-full h-[250px]">
                 <Image
                   src={defaultProductImage}
                   width={50}
                   height={50}
                   alt="product image"
-                  className="w-full h-[35%] object-cover rounded-t-md"
+                  className="w-full h-full object-cover rounded-t-md"
                 />
               </div>
 
