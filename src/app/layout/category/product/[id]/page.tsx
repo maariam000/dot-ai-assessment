@@ -70,30 +70,19 @@ const page = () => {
                     <p className=" text-secondaryColor font-semibold py-3">
                       Specifications
                     </p>
-                    <p className="text-[14px] py-1 text-secondaryColor font-medium">
-                      Battery:{" "}
-                      <span className="text-[#6F7782] ">
-                        {product.specifications.battery}
-                      </span>{" "}
-                    </p>
-                    <p className="text-[14px] py-1 text-secondaryColor font-medium">
-                      Processor:{" "}
-                      <span className="text-[#6F7782] ">
-                        {product.specifications.processor}
-                      </span>
-                    </p>
-                    <p className="text-[14px] py-1 text-secondaryColor font-medium">
-                      Screen size:{" "}
-                      <span className="text-[#6F7782] ">
-                        {product.specifications.screenSize}
-                      </span>
-                    </p>
-                    <p className="text-[14px] py-1 text-secondaryColor font-medium">
-                      Weight:{" "}
-                      <span className="text-[#6F7782] ">
-                        {product.specifications.weight}
-                      </span>
-                    </p>
+                    {Object.entries(product.specifications).map(
+                      ([key, value]) => (
+                        <p
+                          key={key}
+                          className="text-[14px] py-1 text-secondaryColor font-medium"
+                        >
+                          {`${key.charAt(0).toUpperCase() + key.slice(1)}:`}{" "}
+                          <span className="text-[#6F7782]">
+                            {String(value)}
+                          </span>
+                        </p>
+                      )
+                    )}
                   </div>
                   <div className="flex gap-5 mt-7">
                     <ThemeButton

@@ -54,13 +54,6 @@ export interface IDropdownProps {
   onChange?: (value: string | number) => void;
 }
 
-interface Specifications {
-  processor: string;
-  screenSize: string;
-  weight: string;
-  battery: string;
-}
-
 export interface IProduct {
   id: number;
   brand: string;
@@ -73,5 +66,5 @@ export interface IProduct {
   imageUrl: string;
   rating: number;
   reviews: number;
-  specifications: Specifications;
+  specifications: Record<string, string | number | boolean>;
 }
