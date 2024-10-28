@@ -5,15 +5,14 @@ import React from "react";
 import { IoArrowBack } from "react-icons/io5";
 
 const EditProduct = () => {
+  
   return (
     <div className="mx-8">
-      <p className="text-secondaryColor text-[20px] font-bold">
-        Create New Product
-      </p>
+      <p className="text-secondaryColor text-[20px] font-bold">Edit Product</p>
       <div className="bg-white border-borderColor border-[1px] p-6 my-5 shadow-md rounded-md">
         <div className="flex justify-between">
           <p className="text-[17px] text-secondaryColor font-semibold">
-            Create New Product
+            Edit Product
           </p>
           <Link href="/layout/category/product">
             <div className="flex gap-2 text-[15px] text-secondaryColor">

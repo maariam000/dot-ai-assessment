@@ -8,6 +8,7 @@ import { GoPlusCircle } from "react-icons/go";
 import InputField from "@/components/fields/InputField";
 import Dropdown from "@/components/fields/dropdown";
 import Link from "next/link";
+import Cart from "@/components/cart";
 
 const ProductList = ({ products }: { products: IProduct[] }) => {
   const options = [
@@ -97,6 +98,7 @@ const ProductList = ({ products }: { products: IProduct[] }) => {
         <Dropdown options={options} extraStyles="w-[30%]" />
         {/* </div> */}
       </div>
+      <Cart products={products} />
     </div>
   );
 };

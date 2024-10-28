@@ -10,6 +10,7 @@ import { useGetSingleProduct } from "@/app/stateManagement/useProducts";
 import LoadingPage from "@/components/utils/LoadingPage";
 import ErrorPage from "@/components/utils/ErrorPage";
 import ThemeButton from "@/components/button/themeButton";
+import Cart from "@/components/cart";
 
 const page = () => {
   const { id } = useParams();
@@ -89,10 +90,15 @@ const page = () => {
                       extraStyle="flex justify-center bg-secondaryColor !text-[14px] text-white"
                       text="Add to Cart"
                     />
-                    <ThemeButton
-                      extraStyle="flex justify-center bg-secondaryColor !text-[14px] text-white"
-                      text="Edit Product"
-                    />
+                    <Link
+                      href={`/layout/category/product/${productId}/edit-product`}
+                    >
+                      <ThemeButton
+                        extraStyle="flex justify-center bg-secondaryColor !text-[14px] text-white"
+                        text="Edit Product"
+                      />
+                    </Link>
+
                     <ThemeButton
                       extraStyle="flex justify-center bg-[#EF4444] !text-[14px] text-white"
                       text="Delete Product"
