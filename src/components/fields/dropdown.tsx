@@ -21,7 +21,7 @@ const Dropdown: React.FC<IDropdownProps> = ({
     <div className={`${extraStyles}`}>
       <p className="text-sm font-semibold text-secondaryColor pl-1 pb-1.5">{label}</p>
       <select
-        className="border bg-white p-3 text-sm outline-none rounded-xl text-gray-800 cursor-pointer"
+        className="w-full border bg-white p-3 text-sm outline-none rounded-xl text-gray-800 cursor-pointer"
         value={value}
         onChange={handleSelectChange}
       >

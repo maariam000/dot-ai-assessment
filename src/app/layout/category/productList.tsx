@@ -34,7 +34,7 @@ const ProductList = ({ products }: { products: IProduct[] }) => {
   ];
 
   const pageOption = [
-    { label: "2 per page", value: 2 },
+    { label: "5 per page", value: 5 },
     { label: "10 per page", value: 10 },
     { label: "20  per page", value: 20 },
     { label: "30 per page", value: 30 },
@@ -52,7 +52,7 @@ const ProductList = ({ products }: { products: IProduct[] }) => {
 
   const indexOfLastProduct = currentPage * itemsPerPage;
   const indexOfFirstProduct = indexOfLastProduct - itemsPerPage;
-  const currentProducts = products.slice(
+  const currentProducts = filteredProducts.slice(
     indexOfFirstProduct,
     indexOfLastProduct
   );
@@ -93,7 +93,7 @@ const ProductList = ({ products }: { products: IProduct[] }) => {
             />
           </div>
         </div>
-        <div className="w-[15%] bg-red-500">
+        <div className="w-[30%]">
           <Dropdown
             label="Sort By"
             value={sortBy}
@@ -103,16 +103,16 @@ const ProductList = ({ products }: { products: IProduct[] }) => {
           />
         </div>
       </div>
-      <div className="w-[45%]">
+      <div className="w-[36%]">
         <Dropdown
           label="Order"
           value={order}
           onChange={setOrder}
           options={orderOptions}
-          extraStyles="w-bg-red-900"
+          extraStyles="w-full"
         />
       </div>
-      <div className="my-4 grid grid-cols-3 gap-5 rounded-lg">
+      <div className="my-6 grid grid-cols-3 gap-5 rounded-lg">
         {currentProducts.map((product: IProduct) => (
           <div
             key={product.id}
@@ -171,7 +171,7 @@ const ProductList = ({ products }: { products: IProduct[] }) => {
             disabled={currentPage === totalPages}
           />
         </div>
-        <div className="w-[10%]">
+        <div className="w-[20%]">
           <Dropdown
             options={pageOption}
             onChange={(value) => setItemsPerPage(Number(value))} // Update items per page
