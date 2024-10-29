@@ -6,16 +6,26 @@ import { IoArrowBack } from "react-icons/io5";
 import defaultProductImage from "../../../../../../public/assets/product-default-list.jpeg";
 import { BiChevronRight } from "react-icons/bi";
 import { useParams } from "next/navigation";
-import { useGetSingleProduct } from "@/app/stateManagement/useProducts";
+import {
+  useDeleteProduct,
+  useGetSingleProduct,
+} from "@/app/stateManagement/useProducts";
 import LoadingPage from "@/components/utils/LoadingPage";
 import ErrorPage from "@/components/utils/ErrorPage";
 import ThemeButton from "@/components/button/themeButton";
 import Cart from "@/components/cart";
+import { useRouter } from "next/navigation";
 
 const page = () => {
   const { id } = useParams();
   const productId = Number(id);
+  const router = useRouter();
   const { data: product, isLoading } = useGetSingleProduct(productId);
+  const { mutate: deletedProduct } = useDeleteProduct();
+  const handleDelete = () => {
+    deletedProduct(productId);
+    router.push("/layout/category/product");
+  };
   return (
     <div className="mx-10">
       <p className="text-secondaryColor text-[20px] font-bold">
@@ -100,6 +110,7 @@ const page = () => {
                     </Link>
 
                     <ThemeButton
+                      onClick={handleDelete}
                       extraStyle="flex justify-center bg-[#EF4444] !text-[14px] text-white"
                       text="Delete Product"
                     />

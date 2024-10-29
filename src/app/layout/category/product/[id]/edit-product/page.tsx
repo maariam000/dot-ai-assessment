@@ -1,6 +1,9 @@
 "use client";
 
-import { useGetSingleProduct } from "@/app/stateManagement/useProducts";
+import {
+  useEditProduct,
+  useGetSingleProduct,
+} from "@/app/stateManagement/useProducts";
 import ThemeButton from "@/components/button/themeButton";
 import InputField from "@/components/fields/InputField";
 import { IProduct } from "@/components/interface";
@@ -40,6 +43,27 @@ const EditProduct = () => {
     imageUrl,
     specifications,
   } = formData;
+
+  const { mutate: editProduct } = useEditProduct();
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    editProduct({
+      id: productId,
+      data: formData,
+    });
+  };
+
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const { name, value } = e.target;
+    setFormData((prevProduct: IProduct) => ({
+      ...prevProduct,
+      [name]: name === "price" || name === "stock" ? Number(value) : value,
+    }));
+  };
+
   return (
     <div className="mx-8">
       <p className="text-secondaryColor text-[20px] font-bold">Edit Product</p>
@@ -61,12 +85,14 @@ const EditProduct = () => {
               label="Product Name"
               placeholder="Product name"
               name="name"
+              onChange={handleChange}
               value={name}
               type="text"
               extraStyle="w-1/2"
             />
             <InputField
               label="Brand"
+              onChange={handleChange}
               placeholder="Brand"
               name="brand"
               value={brand}
@@ -78,6 +104,7 @@ const EditProduct = () => {
             <InputField
               label="Category"
               placeholder="Category"
+              onChange={handleChange}
               name="category"
               value={category}
               type="text"
@@ -87,6 +114,7 @@ const EditProduct = () => {
               label="Sub Category"
               name="subCategory"
               value={subCategory}
+              onChange={handleChange}
               type="text"
               placeholder="Sub Category"
               extraStyle="w-1/2"
@@ -96,6 +124,7 @@ const EditProduct = () => {
             <InputField
               label="Price"
               name="price"
+              onChange={handleChange}
               value={price}
               type="number"
               placeholder="Price"
@@ -104,6 +133,7 @@ const EditProduct = () => {
             <InputField
               label="Stock"
               placeholder="Stock"
+              onChange={handleChange}
               name="stock"
               value={stock}
               type="number"
@@ -121,6 +151,7 @@ const EditProduct = () => {
             id=""
             cols={4}
             value={description}
+            onChange={handleChange}
             rows={5}
             className="mb-3 outline-none p-3 w-full rounded-lg border-[.6px]"
           ></textarea>
@@ -134,6 +165,7 @@ const EditProduct = () => {
           <div className="flex justify-between my-4">
             <InputField
               label="Specification"
+              onChange={handleChange}
               // name=""
               value={name}
               type="text"
@@ -148,7 +180,8 @@ const EditProduct = () => {
           </div>
           <div className="flex justify-between !text-[14px] mt-5">
             <ThemeButton
-              text="Create product"
+              onClick={handleSubmit}
+              text="Edit product"
               extraStyle="bg-secondaryColor !text-[14px]"
             />
             <Link href="/layout/category/product">

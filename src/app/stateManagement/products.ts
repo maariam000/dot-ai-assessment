@@ -33,3 +33,29 @@ export const createProduct = async (data: IProduct) => {
     throw error;
   }
 };
+
+export const editProduct = async ({
+  id,
+  data,
+}: {
+  id: number;
+  data: IProduct;
+}) => {
+  try {
+    const response = await axios.patch(`${endpointUrl}/products/${id}`, data);
+    return response.data;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
+
+export const deleteProduct = async (id: number) => {
+  try {
+    const response = await axios.delete(`${endpointUrl}/products/${id}`);
+    return response.data;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
