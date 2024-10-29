@@ -14,6 +14,7 @@ import "react-loading-skeleton/dist/skeleton.css";
 
 const page = () => {
   const { data: products, isLoading, isSuccess } = useGetAllProducts();
+  
   return isLoading ? (
     <LoadingPage />
   ) : products ? (

@@ -15,6 +15,7 @@ import ErrorPage from "@/components/utils/ErrorPage";
 import ThemeButton from "@/components/button/themeButton";
 import Cart from "@/components/cart";
 import { useRouter } from "next/navigation";
+import { useCart } from "@/app/stateManagement/cartContext";
 
 const page = () => {
   const { id } = useParams();
@@ -26,6 +27,8 @@ const page = () => {
     deletedProduct(productId);
     router.push("/layout/category/product");
   };
+  const { addToCart } = useCart();
+
   return (
     <div className="mx-10">
       <p className="text-secondaryColor text-[20px] font-bold">
@@ -97,6 +100,7 @@ const page = () => {
                   </div>
                   <div className="flex gap-5 mt-7">
                     <ThemeButton
+                      onClick={() => addToCart(product)}
                       extraStyle="flex justify-center bg-secondaryColor !text-[14px] text-white"
                       text="Add to Cart"
                     />

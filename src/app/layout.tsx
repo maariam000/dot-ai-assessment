@@ -9,6 +9,7 @@ import Navbar from "@/components/navbar";
 import { queryClient } from "@/app/stateManagement/queryClient";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "react-hot-toast";
+import { CartProvider } from "./stateManagement/cartContext";
 
 export default function RootLayout({
   children,
@@ -30,34 +31,36 @@ export default function RootLayout({
     <html lang="en">
       <QueryClientProvider client={queryClient}>
         <Toaster />
-        <body className="">
-          <div className="flex h-screen w-screen">
-            <div className="w-[15vw]">
-              <Sidebar
-                open={open}
-                onClose={() => setOpen(false)}
-                routes={routes}
-              />
-            </div>
-            <div className="h-full w-[85vw] bg-lightPrimary ">
-              <main className="h-full w-full  transition-all md:pr-2 ">
-                <div className="ml-4 w-full h-full">
-                  <div className="w-full my-4">
-                    <Navbar
-                      onOpenSidenav={() => setOpen(true)}
-                      brandText={currentRoute}
-                      // {...rest}
-                    />
-                  </div>
+        <CartProvider>
+          <body className="">
+            <div className="flex h-screen w-screen">
+              <div className="w-[15vw]">
+                <Sidebar
+                  open={open}
+                  onClose={() => setOpen(false)}
+                  routes={routes}
+                />
+              </div>
+              <div className="h-full w-[85vw] bg-lightPrimary ">
+                <main className="h-full w-full  transition-all md:pr-2 ">
+                  <div className="ml-4 w-full h-full">
+                    <div className="w-full my-4">
+                      <Navbar
+                        onOpenSidenav={() => setOpen(true)}
+                        brandText={currentRoute}
+                        // {...rest}
+                      />
+                    </div>
 
-                  <div className="pt-5 w-full h-auto border-borderColor border-[3px] bg-backgroundColor mb-auto min-h-[84vh] p-2 md:pr-2">
-                    {children}
+                    <div className="pt-5 w-full h-auto border-borderColor border-[3px] bg-backgroundColor mb-auto min-h-[84vh] p-2 md:pr-2">
+                      {children}
+                    </div>
                   </div>
-                </div>
-              </main>
+                </main>
+              </div>
             </div>
-          </div>
-        </body>
+          </body>
+        </CartProvider>
       </QueryClientProvider>
     </html>
   );

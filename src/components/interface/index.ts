@@ -68,3 +68,13 @@ export interface IProduct {
   reviews?: number;
   specifications?: Record<string, string | number | boolean>;
 }
+
+export interface CartContextType {
+  cartCount: number;
+  addToCart: () => void;
+}
+
+export interface ICartItem extends IProduct {
+  quantity: number;
+}
+

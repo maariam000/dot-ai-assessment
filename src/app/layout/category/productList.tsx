@@ -9,11 +9,13 @@ import InputField from "@/components/fields/InputField";
 import Dropdown from "@/components/fields/dropdown";
 import Link from "next/link";
 import Cart from "@/components/cart";
+import { useCart } from "@/app/stateManagement/cartContext";
 
 const ProductList = ({ products }: { products: IProduct[] }) => {
+  const { addToCart } = useCart();
   const options = [
-    { label: "Price", value: "1" },
-    { label: "Date", value: "2" },
+    { label: "price", value: "1" },
+    { label: "stock", value: "2" },
     { label: "Option 3", value: "3" },
   ];
   return (
@@ -46,43 +48,43 @@ const ProductList = ({ products }: { products: IProduct[] }) => {
       </div>
       <div className="my-4 grid grid-cols-3 gap-5 rounded-lg">
         {products.map((product: IProduct) => (
-          <Link href={`/layout/category/product/${product.id}`}>
-            <div
-              key={product.id}
-              className="bg-white shadow-md w-full h-auto rounded-md"
-            >
-              <div className="w-full h-[250px]">
-                <Image
-                  src={defaultProductImage}
-                  width={50}
-                  height={50}
-                  alt="product image"
-                  className="w-full h-full object-cover rounded-t-md"
-                />
-              </div>
+          <div
+            key={product.id}
+            className="bg-white shadow-md w-full h-auto rounded-md"
+          >
+            <div className="w-full h-[250px]">
+              <Image
+                src={defaultProductImage}
+                width={50}
+                height={50}
+                alt="product image"
+                className="w-full h-full object-cover rounded-t-md"
+              />
+            </div>
 
-              <div className="p-5 ">
+            <div className="p-5 ">
+              <Link href={`/layout/category/product/${product.id}`}>
                 <p className="text-[18px] text-secondaryColor font-semibold">
                   {product.name}
                 </p>
-                <p className="py-2 text-[#6F7782] text-[15px]">
-                  {product.brand}
-                </p>
-                <div className="flex gap-1 items-center text-[14px]">
-                  <TiStarFullOutline color="#FACB15" />
-                  <p className="font-semibold">{product.rating}</p>
-                  <p className="text-[#6F7782]">({product.reviews} reviews)</p>
-                </div>
-                <p className="py-4 text-secondaryColor text-[18px] font-semibold">
-                  ${product.price}
-                </p>
-                <ThemeButton
-                  text="Add to Cart"
-                  extraStyle="w-full flex justify-center bg-secondaryColor !text-[18px] text-white"
-                />
+              </Link>
+
+              <p className="py-2 text-[#6F7782] text-[15px]">{product.brand}</p>
+              <div className="flex gap-1 items-center text-[14px]">
+                <TiStarFullOutline color="#FACB15" />
+                <p className="font-semibold">{product.rating}</p>
+                <p className="text-[#6F7782]">({product.reviews} reviews)</p>
               </div>
+              <p className="py-4 text-secondaryColor text-[18px] font-semibold">
+                ${product.price}
+              </p>
+              <ThemeButton
+                onClick={() => addToCart(product)}
+                text="Add to Cart"
+                extraStyle="w-full flex justify-center bg-secondaryColor !text-[18px] text-white"
+              />
             </div>
-          </Link>
+          </div>
         ))}
       </div>
       <div className="flex mt-9 items-center justify-between">

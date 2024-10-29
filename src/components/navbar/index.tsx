@@ -8,6 +8,7 @@ import { LuShoppingCart } from "react-icons/lu";
 import Image from "next/image";
 import Cart from "../cart";
 import { useGetAllProducts } from "@/app/stateManagement/useProducts";
+import { useCart } from "@/app/stateManagement/cartContext";
 
 const Navbar = (props) => {
   const { onOpenSidenav, brandText } = props;
@@ -16,6 +17,9 @@ const Navbar = (props) => {
   const toggleCart = () => {
     setIsCartOpen((prev) => !prev);
   };
+
+  const { cartItems } = useCart();
+  const cartItemCount = cartItems.reduce((acc, item) => acc + item.quantity, 0);
 
   const { data: products } = useGetAllProducts();
 
@@ -32,8 +36,9 @@ const Navbar = (props) => {
           onClick={toggleCart}
         >
           <LuShoppingCart size={25} color="#0F172A" />
+
           <p className="bg-secondaryColor rounded-full w-4 h-4 flex items-center justify-center text-white text-[10px] font-bold absolute -top-1 -right-1">
-            2
+            {cartItemCount}
           </p>
         </div>
       </div>
