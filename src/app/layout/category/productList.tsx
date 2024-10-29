@@ -10,13 +10,32 @@ import Dropdown from "@/components/fields/dropdown";
 import Link from "next/link";
 import Cart from "@/components/cart";
 import { useCart } from "@/app/stateManagement/cartContext";
+import { filterAndSortProducts } from "@/components/utils/global";
 
 const ProductList = ({ products }: { products: IProduct[] }) => {
   const { addToCart } = useCart();
-  const options = [
-    { label: "price", value: "1" },
-    { label: "stock", value: "2" },
-    { label: "Option 3", value: "3" },
+  const [searchTerm, setSearchTerm] = useState("");
+  const [minPrice, setMinPrice] = useState<number | "">("");
+  const [maxPrice, setMaxPrice] = useState<number | "">("");
+  const [sortBy, setSortBy] = useState<string>("price");
+  const [order, setOrder] = useState<string>("ascending");
+
+  const filteredProducts = filterAndSortProducts(products, {
+    searchTerm,
+    minPrice,
+    maxPrice,
+    sortBy,
+    order,
+  });
+
+  const filterOptions = [
+    { label: "Price", value: "price" },
+    { label: "stock", value: "stock" },
+  ];
+
+  const orderOptions = [
+    { label: "Ascending", value: "ascending" },
+    { label: "Descending", value: "descending" },
   ];
   return (
     <div>
@@ -32,22 +51,47 @@ const ProductList = ({ products }: { products: IProduct[] }) => {
       </div>
       <div className="w-full my-5 flex justify-between">
         <div className="flex w-[60%] gap-3">
-          <InputField label="Search" extraStyle="w-[60%]" />
+          <InputField
+            label="Search"
+            onChange={(e) => setSearchTerm(e.target.value)}
+            extraStyle="w-[60%]"
+          />
           <div className="flex gap-2 w-[25%]">
-            <InputField type="number" label="Price Range" extraStyle="w-full" />
+            <InputField
+              type="number"
+              label="Price Range"
+              onChange={(e) => setMinPrice(Number(e.target.value) || "")}
+              extraStyle="w-full"
+            />
             <p className="text-sm flex items-center mt-6">to</p>
-            <InputField type="number" extraStyle="w-full mt-6" />
+            <InputField
+              type="number"
+              onChange={(e) => setMaxPrice(Number(e.target.value) || "")}
+              extraStyle="w-full mt-6"
+            />
           </div>
         </div>
         <div className="w-[40%]">
-          <Dropdown label="Sort By" options={options} extraStyles="w-full" />
+          <Dropdown
+            label="Sort By"
+            value={sortBy}
+            onChange={(e) => setSortBy(e.target.value)}
+            options={filterOptions}
+            extraStyles="w-full"
+          />
         </div>
       </div>
       <div className="w-[45%]">
-        <Dropdown label="Order" options={options} extraStyles="w-bg-red-900" />
+        <Dropdown
+          label="Order"
+          value={order}
+          onChange={setOrder}
+          options={orderOptions}
+          extraStyles="w-bg-red-900"
+        />
       </div>
       <div className="my-4 grid grid-cols-3 gap-5 rounded-lg">
-        {products.map((product: IProduct) => (
+        {filteredProducts.map((product: IProduct) => (
           <div
             key={product.id}
             className="bg-white shadow-md w-full h-auto rounded-md"
@@ -100,7 +144,7 @@ const ProductList = ({ products }: { products: IProduct[] }) => {
           />
         </div>
         {/* <div className="w-[30%]"> */}
-        <Dropdown options={options} extraStyles="w-[30%]" />
+        <Dropdown options={filterOptions} extraStyles="w-[30%]" />
         {/* </div> */}
       </div>
     </div>

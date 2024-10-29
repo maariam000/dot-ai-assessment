@@ -51,7 +51,8 @@ export interface IDropdownProps {
   options: IOption[];
   id?: string;
   extraStyles?: string;
-  onChange?: (value: string | number) => void;
+  value?: string;
+  onChange?: (event: ChangeEvent<HTMLSelectElement>) => void;
 }
 
 export interface IProduct {
@@ -78,3 +79,10 @@ export interface ICartItem extends IProduct {
   quantity: number;
 }
 
+export interface IFilterSortParams {
+  searchTerm: string;
+  minPrice: number | "";
+  maxPrice: number | "";
+  sortBy: string;
+  order: string | "";
+}

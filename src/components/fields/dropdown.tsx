@@ -5,6 +5,7 @@ import { IDropdownProps } from "../interface";
 const Dropdown: React.FC<IDropdownProps> = ({
   label,
   options,
+  value,
   extraStyles,
   onChange,
 }) => {
@@ -13,7 +14,7 @@ const Dropdown: React.FC<IDropdownProps> = ({
   const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedValue = event.target.value;
     setSelectedOption(selectedValue);
-    if (onChange) onChange(selectedValue); // Notify the parent component if `onChange` is provided
+    if (onChange) onChange(selectedValue); 
   };
 
   return (
@@ -21,7 +22,7 @@ const Dropdown: React.FC<IDropdownProps> = ({
       <div className="text-sm font-semibold text-secondaryColor pb-1.5">{label}</div>
       <select
         className="border bg-white p-3 text-sm outline-none rounded-xl h-10 w-[80%] text-gray-800 cursor-pointer"
-        value={selectedOption}
+        value={value}
         onChange={handleSelectChange}
       >
         {/* <option disabled>Choose an Opto</option> */}
