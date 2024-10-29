@@ -19,9 +19,9 @@ const Dropdown: React.FC<IDropdownProps> = ({
 
   return (
     <div className={`${extraStyles}`}>
-      <div className="text-sm font-semibold text-secondaryColor pb-1.5">{label}</div>
+      <p className="text-sm font-semibold text-secondaryColor pl-1 pb-1.5">{label}</p>
       <select
-        className="border bg-white p-3 text-sm outline-none rounded-xl h-10 w-[80%] text-gray-800 cursor-pointer"
+        className="border bg-white p-3 text-sm outline-none rounded-xl text-gray-800 cursor-pointer"
         value={value}
         onChange={handleSelectChange}
       >

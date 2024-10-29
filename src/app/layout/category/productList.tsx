@@ -17,7 +17,7 @@ const ProductList = ({ products }: { products: IProduct[] }) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [minPrice, setMinPrice] = useState<number | "">("");
   const [maxPrice, setMaxPrice] = useState<number | "">("");
-  const [sortBy, setSortBy] = useState<string>("price");
+  const [sortBy, setSortBy] = useState<string>("");
   const [order, setOrder] = useState<string>("ascending");
 
   const filteredProducts = filterAndSortProducts(products, {
@@ -34,6 +34,7 @@ const ProductList = ({ products }: { products: IProduct[] }) => {
   ];
 
   const pageOption = [
+    { label: "2 per page", value: 2 },
     { label: "10 per page", value: 10 },
     { label: "20  per page", value: 20 },
     { label: "30 per page", value: 30 },
@@ -46,12 +47,20 @@ const ProductList = ({ products }: { products: IProduct[] }) => {
     { label: "Descending", value: "descending" },
   ];
 
-  const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage, setItemsPerPage] = useState(10);
-  const [totalPages, setTotalPages] = useState(1);
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [itemsPerPage, setItemsPerPage] = useState<number>(10);
+
+  const indexOfLastProduct = currentPage * itemsPerPage;
+  const indexOfFirstProduct = indexOfLastProduct - itemsPerPage;
+  const currentProducts = products.slice(
+    indexOfFirstProduct,
+    indexOfLastProduct
+  );
+
+  const totalPages = Math.ceil(products.length / itemsPerPage);
 
   return (
-    <div>
+    <div className="flex flex-col">
       <div className="w-full flex items-center justify-between">
         <p className="text-[18px] font-semibold ">All Products</p>
         <Link href="/layout/category/product/new-product">
@@ -84,7 +93,7 @@ const ProductList = ({ products }: { products: IProduct[] }) => {
             />
           </div>
         </div>
-        <div className="w-[40%]">
+        <div className="w-[15%] bg-red-500">
           <Dropdown
             label="Sort By"
             value={sortBy}
@@ -104,7 +113,7 @@ const ProductList = ({ products }: { products: IProduct[] }) => {
         />
       </div>
       <div className="my-4 grid grid-cols-3 gap-5 rounded-lg">
-        {filteredProducts.map((product: IProduct) => (
+        {currentProducts.map((product: IProduct) => (
           <div
             key={product.id}
             className="bg-white shadow-md w-full h-auto rounded-md"
@@ -144,21 +153,32 @@ const ProductList = ({ products }: { products: IProduct[] }) => {
           </div>
         ))}
       </div>
-      <div className="flex mt-9 items-center justify-between">
+      <div className="flex mt-9 justify-between">
         <div className="flex gap-2">
           <ThemeButton
             text="Previous"
-            extraStyle="text-[14px] bg-secondaryButtonColor"
+            extraStyle="text-[14px] text-center bg-secondaryButtonColor"
+            onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+            disabled={currentPage === 1}
           />
-          <p className="text-[14px] my-auto">Page 1</p>
+          <p className="text-[14px] my-auto">Page {currentPage}</p>
           <ThemeButton
             text="Next"
             extraStyle="text-[14px] bg-secondaryButtonColor"
+            onClick={() =>
+              setCurrentPage((prev) => Math.min(prev + 1, totalPages))
+            }
+            disabled={currentPage === totalPages}
           />
         </div>
-        {/* <div className="w-[30%]"> */}
-        <Dropdown options={pageOption} extraStyles="w-[30%]" />
-        {/* </div> */}
+        <div className="w-[10%]">
+          <Dropdown
+            options={pageOption}
+            onChange={(value) => setItemsPerPage(Number(value))} // Update items per page
+            value={String(itemsPerPage)}
+            extraStyles="w-full"
+          />
+        </div>
       </div>
     </div>
   );

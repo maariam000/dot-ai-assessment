@@ -27,6 +27,7 @@ export interface IButtonProps {
   extraStyle?: string;
   icon?: ReactNode;
   onClick?: MouseEventHandler<HTMLButtonElement>;
+  disabled?: boolean;
 }
 
 export interface InputFieldProps {

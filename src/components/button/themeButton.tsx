@@ -5,14 +5,16 @@ const ThemeButton: React.FC<IButtonProps> = ({
   text,
   extraStyle,
   icon,
+  disabled,
   onClick,
 }) => {
   return (
     <button
-      className={`${extraStyle} rounded-md flex items-center gap-2 px-[0.75rem] py-[0.5rem]  text-base font-medium text-white transition duration-200 hover:opacity-[0.9]`}
+      className={`${extraStyle} text-center rounded-md my-auto flex hover:cursor-pointer gap-2 px-[0.75rem] py-[0.5rem]  text-base font-medium text-white transition duration-200 hover:opacity-[0.9]`}
       onClick={onClick}
+      disabled={disabled}
     >
-      <div>{icon}</div>
+      <div className="my-auto">{icon}</div>
       <p className="flex justify-between text-center">{text}</p>
     </button>
   );
