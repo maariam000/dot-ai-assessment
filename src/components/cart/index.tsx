@@ -6,18 +6,23 @@ import Image from "next/image";
 import ThemeButton from "../button/themeButton";
 import { IProduct } from "../interface";
 
-const Cart = ({ products }) => {
+const Cart = ({ products, onClose }) => {
   return (
-    <div className="bg-white w-[35%] h-screen p-5">
+    <div className="bg-white h-screen p-5">
       <div className="flex justify-between">
         <p className="text-secondaryColor text-[18px] font-semibold">
           Shopping Cart
         </p>
-        <TiTimes size={17} color="#6F7782" />
+        <TiTimes
+          size={17}
+          color="#6F7782"
+          className="hover:cursor-pointer"
+          onClick={onClose}
+        />
       </div>
       <p className="my-3 text-[#6F7782]">You have 5 items in your cart</p>
       {products.map((product: IProduct) => (
-        <div className="flex justify-between items-center my-2">
+        <div className="flex justify-between border-b-[1px] py-3 items-center my-2">
           <div className="h-[50px] w-[50px] rounded-md">
             <Image
               src={defaultProductImage}

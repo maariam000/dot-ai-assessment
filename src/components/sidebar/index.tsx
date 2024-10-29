@@ -9,7 +9,7 @@ const Sidebar = ({ open, onClose }: { open: boolean; onClose: any }) => {
 
   return (
     <div
-      className={`fixed !z-50 flex max-h-full min-h-full  mt-[6rem] flex-col overflow-y-auto pb-10 shadow-2xl shadow-white/5 transition-transform dark:bg-navy-800 dark:text-white ${
+      className={`fixed !z-50 flex max-h-full min-h-full  mt-[6rem] flex-col overflow-y-auto pb-10 shadow-2xl shadow-white/5 transition-transform  ${
         open ? "translate-x-0" : "-translate-x-96"
       }`}
     >

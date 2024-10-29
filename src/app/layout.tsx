@@ -37,7 +37,7 @@ export default function RootLayout({
                 routes={routes}
               />
             </div>
-            <div className="h-full w-[85vw] bg-lightPrimary dark:!bg-navy-900">
+            <div className="h-full w-[85vw] bg-lightPrimary ">
               <main className="h-full w-full  transition-all md:pr-2 ">
                 <div className="ml-4 w-full h-full">
                   <div className="w-full my-4">

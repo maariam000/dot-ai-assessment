@@ -101,7 +101,6 @@ const ProductList = ({ products }: { products: IProduct[] }) => {
         <Dropdown options={options} extraStyles="w-[30%]" />
         {/* </div> */}
       </div>
-      <Cart products={products} />
     </div>
   );
 };
