@@ -80,14 +80,19 @@ const Cart = ({ products, onClose }) => {
           />
         </div>
       ))}
-      <div className="flex justify-between my-8 text-[18px] font-semibold">
-        <p className="">Total:</p>
-        <p>${totalPrice.toFixed(2)}</p>
-      </div>
-      <ThemeButton
-        text="Proceed to Checkout"
-        extraStyle="bg-secondaryColor w-full !text-[14px] flext justify-center"
-      />
+      {cartItems.length > 0 && (
+        <>
+          <div className="flex justify-between my-8 text-[18px] font-semibold">
+            <p className="">Total:</p>
+            <p>${totalPrice.toFixed(2)}</p>
+          </div>
+
+          <ThemeButton
+            text="Proceed to Checkout"
+            extraStyle="bg-secondaryColor w-full !text-[14px] flext justify-center"
+          />
+        </>
+      )}
     </div>
   );
 };
