@@ -56,14 +56,14 @@ export interface IDropdownProps {
 
 export interface IProduct {
   id?: number;
-  brand: string;
-  category: string;
-  subCategory: string;
+  brand: string | undefined;
+  category: string | undefined;
+  subCategory: string | undefined;
   price: number;
-  name: string;
+  name: string | undefined;
   stock: number;
-  description: string;
-  imageUrl: string;
+  description: string | undefined;
+  imageUrl: string | undefined;
   rating?: number;
   reviews?: number;
   specifications?: Record<string, string | number | boolean>;

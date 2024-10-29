@@ -1,11 +1,45 @@
+"use client";
+
+import { useGetSingleProduct } from "@/app/stateManagement/useProducts";
 import ThemeButton from "@/components/button/themeButton";
 import InputField from "@/components/fields/InputField";
+import { IProduct } from "@/components/interface";
 import Link from "next/link";
-import React from "react";
+import { useParams } from "next/navigation";
+import React, { useState } from "react";
 import { IoArrowBack } from "react-icons/io5";
 
 const EditProduct = () => {
-  
+  const { id } = useParams();
+  const productId = Number(id);
+  const { data: product } = useGetSingleProduct(productId);
+
+  const [formData, setFormData] = useState<IProduct>({
+    name: product?.name,
+    brand: product?.brand,
+    category: product?.category,
+    subCategory: product?.subCategory,
+    price: Number(product?.price),
+    stock: Number(product?.stock),
+    description: product?.description,
+    imageUrl: product?.imageUrl,
+    specifications: {
+      specKey: "",
+      specValue: "",
+    },
+  });
+
+  const {
+    name,
+    brand,
+    category,
+    subCategory,
+    price,
+    stock,
+    description,
+    imageUrl,
+    specifications,
+  } = formData;
   return (
     <div className="mx-8">
       <p className="text-secondaryColor text-[20px] font-bold">Edit Product</p>
@@ -26,30 +60,55 @@ const EditProduct = () => {
             <InputField
               label="Product Name"
               placeholder="Product name"
+              name="name"
+              value={name}
+              type="text"
               extraStyle="w-1/2"
             />
-            <InputField label="Brand" placeholder="Brand" extraStyle="w-1/2" />
+            <InputField
+              label="Brand"
+              placeholder="Brand"
+              name="brand"
+              value={brand}
+              type="text"
+              extraStyle="w-1/2"
+            />
           </div>
           <div className="flex w-full gap-5 my-4">
             <InputField
               label="Category"
               placeholder="Category"
+              name="category"
+              value={category}
+              type="text"
               extraStyle="w-1/2"
             />
             <InputField
               label="Sub Category"
+              name="subCategory"
+              value={subCategory}
+              type="text"
               placeholder="Sub Category"
               extraStyle="w-1/2"
             />
           </div>
           <div className="flex w-full gap-5 my-4">
             <InputField
-              type="number"
               label="Price"
+              name="price"
+              value={price}
+              type="number"
               placeholder="Price"
               extraStyle="w-1/2"
             />
-            <InputField label="Stock" placeholder="Stock" extraStyle="w-1/2" />
+            <InputField
+              label="Stock"
+              placeholder="Stock"
+              name="stock"
+              value={stock}
+              type="number"
+              extraStyle="w-1/2"
+            />
           </div>
           <label
             htmlFor="description"
@@ -61,13 +120,23 @@ const EditProduct = () => {
             name="description"
             id=""
             cols={4}
+            value={description}
             rows={5}
             className="mb-3 outline-none p-3 w-full rounded-lg border-[.6px]"
           ></textarea>
-          <InputField label="Image URL" placeholder="Image URL" />
+          <InputField
+            label="Image URL"
+            placeholder="Image URL"
+            name="imageUrl"
+            value={imageUrl}
+            type="text"
+          />
           <div className="flex justify-between my-4">
             <InputField
               label="Specification"
+              // name=""
+              value={name}
+              type="text"
               placeholder="Key"
               extraStyle="w-[46%]"
             />

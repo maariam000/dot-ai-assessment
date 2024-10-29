@@ -18,9 +18,10 @@ const NewProduct = () => {
     stock: Number(0),
     description: "",
     imageUrl: "",
-    // specKey: "",
-    // specValue: "",
-    specifications: {},
+    specifications: {
+      specKey: "",
+      specValue: "",
+    },
   });
 
   const {
@@ -77,8 +78,6 @@ const NewProduct = () => {
     stock,
     description,
     imageUrl,
-    // specKey,
-    // specValue,
     specifications,
   } = formData;
 
@@ -188,7 +187,7 @@ const NewProduct = () => {
             placeholder="Image URL"
           />
           <div className="flex justify-between my-4">
-            {/* <InputField
+            <InputField
               label="Specification Key"
               placeholder="Key"
               name="specKey"
@@ -200,10 +199,10 @@ const NewProduct = () => {
               label="Specification Value"
               placeholder="Value"
               name="specValue"
-              value={specValue}
+              // value={specifications?.specValue}
               onChange={handleChange}
               extraStyle="w-[46%]"
-            /> */}
+            />
             <ThemeButton
               text="Add"
               extraStyle="bg-secondaryColor flex my-auto mt-[1.75rem] !text-[14px] items-end justify-between"

@@ -22,7 +22,7 @@ const Cart = ({ products, onClose }) => {
       </div>
       <p className="my-3 text-[#6F7782]">You have 5 items in your cart</p>
       {products.map((product: IProduct) => (
-        <div className="flex justify-between border-b-[1px] py-3 items-center my-2">
+        <div className="flex justify-between border-b-[1px] py-2 items-center my-2">
           <div className="h-[50px] w-[50px] rounded-md">
             <Image
               src={defaultProductImage}
