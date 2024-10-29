@@ -2,11 +2,10 @@ import axios from "axios";
 import { endpointUrl } from "./constant";
 import { IProduct } from "@/components/interface";
 
-export const getAllProducts = async () => {
+export const getAllProducts = async (page: number, itemsPerPage: number) => {
   try {
     console.log(endpointUrl);
     const response = await axios.get(`${endpointUrl}/products`);
-
     return response.data.products as IProduct[];
   } catch (error) {
     throw error;

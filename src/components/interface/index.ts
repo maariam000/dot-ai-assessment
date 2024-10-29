@@ -42,12 +42,12 @@ export interface InputFieldProps {
 }
 
 interface IOption {
-  label: string;
+  label: string | number;
   value: string | number;
 }
 
 export interface IDropdownProps {
-  label?: string;
+  label?: string | number;
   options: IOption[];
   id?: string;
   extraStyles?: string;

@@ -52,7 +52,7 @@ export const useDeleteProduct = () => {
   return useMutation({
     mutationFn: deleteProduct,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["product"] });
+      queryClient.invalidateQueries({ queryKey: ["products"] });
       toast.success("Product deleted successfully!");
     },
     onError: () => {

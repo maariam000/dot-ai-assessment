@@ -33,10 +33,23 @@ const ProductList = ({ products }: { products: IProduct[] }) => {
     { label: "stock", value: "stock" },
   ];
 
+  const pageOption = [
+    { label: "10 per page", value: 10 },
+    { label: "20  per page", value: 20 },
+    { label: "30 per page", value: 30 },
+    { label: "40 per page", value: 40 },
+    { label: "50 per page", value: 50 },
+  ];
+
   const orderOptions = [
     { label: "Ascending", value: "ascending" },
     { label: "Descending", value: "descending" },
   ];
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(10);
+  const [totalPages, setTotalPages] = useState(1);
+
   return (
     <div>
       <div className="w-full flex items-center justify-between">
@@ -144,7 +157,7 @@ const ProductList = ({ products }: { products: IProduct[] }) => {
           />
         </div>
         {/* <div className="w-[30%]"> */}
-        <Dropdown options={filterOptions} extraStyles="w-[30%]" />
+        <Dropdown options={pageOption} extraStyles="w-[30%]" />
         {/* </div> */}
       </div>
     </div>
