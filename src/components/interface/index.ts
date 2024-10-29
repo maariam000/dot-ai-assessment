@@ -55,16 +55,16 @@ export interface IDropdownProps {
 }
 
 export interface IProduct {
-  id: number;
+  id?: number;
   brand: string;
   category: string;
   subCategory: string;
-  price: string;
+  price: number;
   name: string;
   stock: number;
   description: string;
   imageUrl: string;
-  rating: number;
-  reviews: number;
-  specifications: Record<string, string | number | boolean>;
+  rating?: number;
+  reviews?: number;
+  specifications?: Record<string, string | number | boolean>;
 }

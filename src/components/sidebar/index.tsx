@@ -15,7 +15,7 @@ const Sidebar = ({ open, onClose }: { open: boolean; onClose: any }) => {
     >
       {/* Close Icon */}
       <span
-        className="absolute right-4 top-4 cursor-pointer xl:hidden"
+        className="absolute mt-8 right-4 top-4 cursor-pointer xl:hidden"
         onClick={onClose}
       >
         <HiX />

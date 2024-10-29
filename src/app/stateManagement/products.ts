@@ -23,3 +23,13 @@ export const getSingleProduct = async (id: number) => {
     throw error;
   }
 };
+
+export const createProduct = async (data: IProduct) => {
+  try {
+    const response = await axios.post(`${endpointUrl}/products`, data);
+    return response.data;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};

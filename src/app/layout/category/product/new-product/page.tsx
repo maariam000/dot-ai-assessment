@@ -1,5 +1,6 @@
 "use client";
 
+import { useCreateProduct } from "@/app/stateManagement/useProducts";
 import ThemeButton from "@/components/button/themeButton";
 import InputField from "@/components/fields/InputField";
 import { IProduct } from "@/components/interface";
@@ -8,22 +9,67 @@ import React, { useState } from "react";
 import { IoArrowBack } from "react-icons/io5";
 
 const NewProduct = () => {
-  const [product, setProduct] = useState({
-    productName: "",
+  const [formData, setFormData] = useState<IProduct>({
+    name: "",
     brand: "",
     category: "",
     subCategory: "",
-    price: "" as number | "",
-    stock: "" as number | "",
+    price: Number(0),
+    stock: Number(0),
     description: "",
     imageUrl: "",
-    specKey: "",
-    specValue: "",
-    specifications: {} as Record<string, string>,
+    // specKey: "",
+    // specValue: "",
+    specifications: {},
   });
 
   const {
-    productName,
+    mutate: createProduct,
+    isLoading,
+    isError,
+    error,
+  } = useCreateProduct();
+
+  // const addSpecification = (
+  //   e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  // ) => {
+  //   e.preventDefault();
+  //   if (formData.specKey && formData.specValue) {
+  //     setFormData((prevProduct) => ({
+  //       ...prevProduct,
+  //       specifications: {
+  //         ...prevProduct.specifications,
+  //         [formData.specKey]: formData.specValue,
+  //       },
+  //       specKey: "",
+  //       specValue: "",
+  //     }));
+  //   }
+  // };
+
+  // const removeSpecification = (key: string) => {
+  //   setFormData((prevProduct) => {
+  //     const newSpecifications = { ...prevProduct.specifications };
+  //     delete newSpecifications[key];
+  //     return {
+  //       ...prevProduct,
+  //       specifications: newSpecifications,
+  //     };
+  //   });
+  // };
+
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const { name, value } = e.target;
+    setFormData((prevProduct: IProduct) => ({
+      ...prevProduct,
+      [name]: name === "price" || name === "stock" ? Number(value) : value,
+    }));
+  };
+
+  const {
+    name,
     brand,
     category,
     subCategory,
@@ -31,43 +77,18 @@ const NewProduct = () => {
     stock,
     description,
     imageUrl,
-    specKey,
-    specValue,
+    // specKey,
+    // specValue,
     specifications,
-  } = product;
-
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    const { name, value } = e.target;
-    setProduct((prevProduct: any) => ({
-      ...prevProduct,
-      [name]: value,
-    }));
-  };
-
-  // Add a new specification
-  const handleAddSpecification = () => {
-    const { specKey, specValue } = product;
-    if (specKey && specValue) {
-      setProduct((prevProduct: any) => ({
-        ...prevProduct,
-        specifications: {
-          ...prevProduct.specifications,
-          [specKey]: specValue,
-        },
-        specKey: "",
-        specValue: "",
-      }));
-    }
-  };
+  } = formData;
 
   // Submit form
   const handleSubmit = (e: React.FormEvent) => {
+    console.log(formData);
+    console.log(typeof formData.price);
     e.preventDefault();
-    const { specKey, specValue, ...productData } = product;
-    console.log("Product to be updated:", productData);
-    // Here, make an API call to submit `productData`
+    // const { specKey, specValue, ...productData } = formData;
+    createProduct(formData);
   };
   return (
     <div className="mx-8">
@@ -86,14 +107,14 @@ const NewProduct = () => {
             </div>
           </Link>
         </div>
-        <form className="my-5" onSubmit={handleSubmit}>
+        <form className="my-5">
           <div className="flex w-full gap-5 my-1">
             <InputField
-              value={productName}
+              value={name}
               onChange={handleChange}
-              name="productName"
+              name="name"
               label="Product Name"
-              placeholder="Product name"
+              placeholder="Product Name"
               extraStyle="w-1/2"
             />
             <InputField
@@ -135,6 +156,7 @@ const NewProduct = () => {
             />
             <InputField
               label="Stock"
+              type="number"
               name="stock"
               placeholder="Stock"
               value={stock}
@@ -146,13 +168,14 @@ const NewProduct = () => {
             htmlFor="description"
             className="my-4 text-secondaryColor text-[14px] block font-semibold"
           >
-            Ads Description
+            Description
           </label>
           <textarea
             id=""
             cols={4}
             rows={5}
             name="description"
+            placeholder="Description"
             value={description}
             onChange={handleChange}
             className="mb-3 outline-none p-3 w-full rounded-lg border-[.6px]"
@@ -165,26 +188,78 @@ const NewProduct = () => {
             placeholder="Image URL"
           />
           <div className="flex justify-between my-4">
-            <InputField
-              label="Specification"
+            {/* <InputField
+              label="Specification Key"
               placeholder="Key"
-              name="key"
+              name="specKey"
+              value="Hell"
+              onChange={handleChange}
               extraStyle="w-[46%]"
             />
             <InputField
+              label="Specification Value"
               placeholder="Value"
-              name="value"
-              extraStyle="mt-6 w-[46%]"
-            />
+              name="specValue"
+              value={specValue}
+              onChange={handleChange}
+              extraStyle="w-[46%]"
+            /> */}
             <ThemeButton
               text="Add"
-              extraStyle="bg-secondaryColor flex my-auto mt-6 !text-[14px] items-end justify-between"
+              extraStyle="bg-secondaryColor flex my-auto mt-[1.75rem] !text-[14px] items-end justify-between"
             />
           </div>
+
+          {/* {Object.entries(formData.specifications).map(([key, value]) => (
+            <div key={key} className="flex justify-between items-center my-4">
+              <InputField
+                label="Specification Key"
+                placeholder="Key"
+                value={specKey}
+                onChange={(e) => {
+                  const newKey = e.target.value;
+                  const newSpecifications = {
+                    ...formData.specifications,
+                    [newKey]: formData.specifications[key],
+                  };
+                  delete newSpecifications[key];
+                  setFormData((prevProduct) => ({
+                    ...prevProduct,
+                    specifications: newSpecifications,
+                  }));
+                }}
+                extraStyle="w-[46%]"
+              />
+              <InputField
+                label="Specification Value"
+                placeholder="Value"
+                value="Hello"
+                onChange={(e) => {
+                  const newSpecifications = {
+                    ...formData.specifications,
+                    [key]: e.target.value,
+                  };
+                  setFormData((prevProduct) => ({
+                    ...prevProduct,
+                    specifications: newSpecifications,
+                  }));
+                }}
+                extraStyle="w-[46%]"
+              />
+              <button
+                type="button"
+                onClick={() => removeSpecification(key)}
+                className="text-red-500 font-bold ml-2"
+              >
+                Delete
+              </button>
+            </div>
+          ))} */}
           <div className="flex justify-between !text-[14px] mt-5">
             <ThemeButton
               text="Create product"
               extraStyle="bg-secondaryColor !text-[14px]"
+              onClick={handleSubmit}
             />
             <Link href="/layout/category/product">
               <ThemeButton
