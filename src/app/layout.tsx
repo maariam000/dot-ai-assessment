@@ -29,10 +29,10 @@ export default function RootLayout({
   }, [pathname, routes]);
   return (
     <html lang="en">
-      <QueryClientProvider client={queryClient}>
-        <Toaster />
-        <CartProvider>
-          <body className="">
+      <body className="">
+        <QueryClientProvider client={queryClient}>
+          <Toaster />
+          <CartProvider>
             <div className="flex h-screen w-screen">
               <div className="w-[15vw]">
                 <Sidebar
@@ -59,9 +59,9 @@ export default function RootLayout({
                 </main>
               </div>
             </div>
-          </body>
-        </CartProvider>
-      </QueryClientProvider>
+          </CartProvider>
+        </QueryClientProvider>
+      </body>
     </html>
   );
 }

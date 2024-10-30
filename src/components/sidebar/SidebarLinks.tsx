@@ -64,17 +64,17 @@ export function SidebarLinks({ routes }: ISidebarLinksProps) {
   };
 
   return (
-    <>
+    <div>
       {routes
         // .filter((section) => section.items && section.items.length > 0)
         .map((section: IRouteSection) => (
           <RouteSection
-            key={section.title}
+            key={section.id}
             title={section.name}
             items={section.subRoutes}
           />
         ))}
-    </>
+    </div>
   );
 }
 

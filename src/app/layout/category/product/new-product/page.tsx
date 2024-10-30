@@ -6,6 +6,7 @@ import InputField from "@/components/fields/InputField";
 import { IProduct } from "@/components/interface";
 import Link from "next/link";
 import React, { useState } from "react";
+import { AiOutlineClose } from "react-icons/ai";
 import { IoArrowBack } from "react-icons/io5";
 
 const NewProduct = () => {
@@ -18,46 +19,33 @@ const NewProduct = () => {
     stock: Number(0),
     description: "",
     imageUrl: "",
-    specifications: {
-      specKey: "",
-      specValue: "",
-    },
   });
 
-  const {
-    mutate: createProduct,
-    isLoading,
-    isError,
-    error,
-  } = useCreateProduct();
+  const [specifications, setSpecifications] = useState<{
+    [key: string]: string | number | boolean;
+  }>({});
+  const [specKey, setSpecKey] = useState("");
+  const [specVal, setSpecVal] = useState("");
 
-  // const addSpecification = (
-  //   e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  // ) => {
-  //   e.preventDefault();
-  //   if (formData.specKey && formData.specValue) {
-  //     setFormData((prevProduct) => ({
-  //       ...prevProduct,
-  //       specifications: {
-  //         ...prevProduct.specifications,
-  //         [formData.specKey]: formData.specValue,
-  //       },
-  //       specKey: "",
-  //       specValue: "",
-  //     }));
-  //   }
-  // };
+  const handleAddSpecification = () => {
+    if (specKey && specVal) {
+      setSpecifications((prevSpecs) => ({
+        ...prevSpecs,
+        [specKey]: specVal,
+      }));
+      setSpecKey("");
+      setSpecVal("");
+    }
+  };
 
-  // const removeSpecification = (key: string) => {
-  //   setFormData((prevProduct) => {
-  //     const newSpecifications = { ...prevProduct.specifications };
-  //     delete newSpecifications[key];
-  //     return {
-  //       ...prevProduct,
-  //       specifications: newSpecifications,
-  //     };
-  //   });
-  // };
+  const handleRemoveSpecification = (key: string) => {
+    // Remove the specification by key
+    const updatedSpecs = { ...specifications };
+    delete updatedSpecs[key];
+    setSpecifications(updatedSpecs);
+  };
+
+  const { mutate: createProduct } = useCreateProduct();
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -69,26 +57,11 @@ const NewProduct = () => {
     }));
   };
 
-  const {
-    name,
-    brand,
-    category,
-    subCategory,
-    price,
-    stock,
-    description,
-    imageUrl,
-    specifications,
-  } = formData;
-
-  // Submit form
   const handleSubmit = (e: React.FormEvent) => {
-    console.log(formData);
-    console.log(typeof formData.price);
     e.preventDefault();
-    // const { specKey, specValue, ...productData } = formData;
-    createProduct(formData);
+    createProduct({ ...formData, specifications });
   };
+
   return (
     <div className="mx-8">
       <p className="text-secondaryColor text-[20px] font-bold">
@@ -109,7 +82,7 @@ const NewProduct = () => {
         <form className="my-5">
           <div className="flex w-full gap-5 my-1">
             <InputField
-              value={name}
+              value={formData.name}
               onChange={handleChange}
               name="name"
               label="Product Name"
@@ -117,7 +90,7 @@ const NewProduct = () => {
               extraStyle="w-1/2"
             />
             <InputField
-              value={brand}
+              value={formData.brand}
               onChange={handleChange}
               label="Brand"
               name="brand"
@@ -129,14 +102,14 @@ const NewProduct = () => {
             <InputField
               label="Category"
               name="category"
-              value={category}
+              value={formData.category}
               onChange={handleChange}
               placeholder="Category"
               extraStyle="w-1/2"
             />
             <InputField
               label="Sub Category"
-              value={subCategory}
+              value={formData.subCategory}
               name="subCategory"
               onChange={handleChange}
               placeholder="Sub Category"
@@ -147,7 +120,7 @@ const NewProduct = () => {
             <InputField
               type="number"
               name="price"
-              value={price}
+              value={formData.price}
               onChange={handleChange}
               label="Price"
               placeholder="Price"
@@ -158,7 +131,7 @@ const NewProduct = () => {
               type="number"
               name="stock"
               placeholder="Stock"
-              value={stock}
+              value={formData.stock}
               onChange={handleChange}
               extraStyle="w-1/2"
             />
@@ -170,90 +143,82 @@ const NewProduct = () => {
             Description
           </label>
           <textarea
-            id=""
-            cols={4}
-            rows={5}
             name="description"
             placeholder="Description"
-            value={description}
+            value={formData.description}
             onChange={handleChange}
             className="mb-3 outline-none p-3 w-full rounded-lg border-[.6px]"
-          ></textarea>
+            rows={5}
+          />
           <InputField
             label="Image URL"
             name="imageUrl"
-            value={imageUrl}
+            value={formData.imageUrl}
             onChange={handleChange}
             placeholder="Image URL"
           />
-          <div className="flex justify-between my-4">
-            <InputField
-              label="Specification Key"
-              placeholder="Key"
-              name="specKey"
-              value="Hell"
-              onChange={handleChange}
-              extraStyle="w-[46%]"
-            />
-            <InputField
-              label="Specification Value"
-              placeholder="Value"
-              name="specValue"
-              // value={specifications?.specValue}
-              onChange={handleChange}
-              extraStyle="w-[46%]"
-            />
-            <ThemeButton
-              text="Add"
-              extraStyle="bg-secondaryColor flex my-auto mt-[1.75rem] !text-[14px] items-end justify-between"
-            />
-          </div>
-
-          {/* {Object.entries(formData.specifications).map(([key, value]) => (
-            <div key={key} className="flex justify-between items-center my-4">
+          <div className="my-4">
+            <p className="text-[14px] font-semibold text-secondaryColor">
+              Specifications
+            </p>
+            <div className="flex justify-between">
               <InputField
-                label="Specification Key"
                 placeholder="Key"
                 value={specKey}
+                onChange={(e) => setSpecKey(e.target.value)}
+                extraStyle="w-[46%]"
+              />
+              <InputField
+                placeholder="Value"
+                value={specVal} // Changed to specVal
+                onChange={(e) => setSpecVal(e.target.value)} // Changed to setSpecVal
+                extraStyle="w-[46%]"
+              />
+              <ThemeButton
+                text="Add"
+                extraStyle="bg-secondaryColor w-[5%] text-center flex my-auto !text-[14px] justify-between"
+                onClick={handleAddSpecification}
+              />
+            </div>
+          </div>
+
+          {/* Render specifications */}
+          {Object.entries(specifications).map(([key, val]) => (
+            <div key={key} className="flex justify-between my-2">
+              <InputField
+                placeholder="Key"
+                value={key}
                 onChange={(e) => {
                   const newKey = e.target.value;
-                  const newSpecifications = {
-                    ...formData.specifications,
-                    [newKey]: formData.specifications[key],
-                  };
-                  delete newSpecifications[key];
-                  setFormData((prevProduct) => ({
-                    ...prevProduct,
-                    specifications: newSpecifications,
+                  const newVal = specifications[key]; 
+                  handleRemoveSpecification(key);
+                  setSpecifications((prevSpecs) => ({
+                    ...prevSpecs,
+                    [newKey]: newVal, // Re-add with new key
                   }));
                 }}
                 extraStyle="w-[46%]"
               />
               <InputField
-                label="Specification Value"
                 placeholder="Value"
-                value="Hello"
+                value={val}
                 onChange={(e) => {
-                  const newSpecifications = {
-                    ...formData.specifications,
-                    [key]: e.target.value,
-                  };
-                  setFormData((prevProduct) => ({
-                    ...prevProduct,
-                    specifications: newSpecifications,
+                  const newVal = e.target.value; 
+                  setSpecifications((prevSpecs) => ({
+                    ...prevSpecs,
+                    [key]: newVal,
                   }));
                 }}
                 extraStyle="w-[46%]"
               />
-              <button
-                type="button"
-                onClick={() => removeSpecification(key)}
-                className="text-red-500 font-bold ml-2"
-              >
-                Delete
-              </button>
+              <AiOutlineClose
+                color="red"
+                className="my-auto w-[5%] cursor-pointer"
+                onClick={() => handleRemoveSpecification(key)}
+              />
             </div>
-          ))} */}
+          ))}
+
           <div className="flex justify-between !text-[14px] mt-5">
             <ThemeButton
               text="Create product"
@@ -263,7 +228,7 @@ const NewProduct = () => {
             <Link href="/layout/category/product">
               <ThemeButton
                 text="Cancel"
-                extraStyle="bg-none !text-[14px] !text-secondaryColor border-borderColor  border-[1px]"
+                extraStyle="bg-none !text-[14px] !text-secondaryColor border-borderColor border-[1px]"
               />
             </Link>
           </div>

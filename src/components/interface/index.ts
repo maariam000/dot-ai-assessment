@@ -68,7 +68,7 @@ export interface IProduct {
   imageUrl: string | undefined;
   rating?: number;
   reviews?: number;
-  specifications?: Record<string, string | number | boolean>;
+  specifications?: any;
 }
 
 export interface CartContextType {
