@@ -161,6 +161,8 @@ const NewProduct = () => {
             <p className="text-[14px] font-semibold text-secondaryColor">
               Specifications
             </p>
+
+
             <div className="flex justify-between">
               <InputField
                 placeholder="Key"
@@ -170,8 +172,8 @@ const NewProduct = () => {
               />
               <InputField
                 placeholder="Value"
-                value={specVal} // Changed to specVal
-                onChange={(e) => setSpecVal(e.target.value)} // Changed to setSpecVal
+                value={specVal} 
+                onChange={(e) => setSpecVal(e.target.value)}
                 extraStyle="w-[46%]"
               />
               <ThemeButton
@@ -194,7 +196,7 @@ const NewProduct = () => {
                   handleRemoveSpecification(key);
                   setSpecifications((prevSpecs) => ({
                     ...prevSpecs,
-                    [newKey]: newVal, // Re-add with new key
+                    [newKey]: newVal,
                   }));
                 }}
                 extraStyle="w-[46%]"

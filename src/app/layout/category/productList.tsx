@@ -34,7 +34,7 @@ const ProductList = ({ products }: { products: IProduct[] }) => {
   ];
 
   const pageOption = [
-    { label: "2 per page", value: 2 },
+    { label: "5 per page", value: 5 },
     { label: "10 per page", value: 10 },
     { label: "20  per page", value: 20 },
     { label: "30 per page", value: 30 },
@@ -48,7 +48,7 @@ const ProductList = ({ products }: { products: IProduct[] }) => {
   ];
 
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const [itemsPerPage, setItemsPerPage] = useState<number>(2);
+  const [itemsPerPage, setItemsPerPage] = useState<number>(5);
 
   const indexOfLastProduct = currentPage * itemsPerPage;
   const indexOfFirstProduct = indexOfLastProduct - itemsPerPage;

@@ -9,7 +9,8 @@ import InputField from "@/components/fields/InputField";
 import { IProduct } from "@/components/interface";
 import Link from "next/link";
 import { useParams } from "next/navigation";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { AiOutlineClose } from "react-icons/ai";
 import { IoArrowBack } from "react-icons/io5";
 
 const EditProduct = () => {
@@ -26,11 +27,11 @@ const EditProduct = () => {
     stock: Number(product?.stock),
     description: product?.description,
     imageUrl: product?.imageUrl,
-    specifications: {
-      specKey: "",
-      specValue: "",
-    },
+    specifications: product?.specifications,
   });
+
+  const [specKey, setSpecKey] = useState("");
+  const [specVal, setSpecVal] = useState("");
 
   const {
     name,
@@ -50,7 +51,7 @@ const EditProduct = () => {
     e.preventDefault();
     editProduct({
       id: productId,
-      data: formData,
+      data: { ...formData, specifications },
     });
   };
 
@@ -61,6 +62,29 @@ const EditProduct = () => {
     setFormData((prevProduct: IProduct) => ({
       ...prevProduct,
       [name]: name === "price" || name === "stock" ? Number(value) : value,
+    }));
+  };
+
+  const handleAddSpecification = () => {
+    if (specKey && specVal) {
+      setFormData((prev) => ({
+        ...prev,
+        specifications: {
+          ...prev.specifications,
+          [specKey]: specVal,
+        },
+      }));
+      setSpecKey("");
+      setSpecVal("");
+    }
+  };
+
+  const handleRemoveSpecification = (key: string) => {
+    const updatedSpecifications = { ...specifications };
+    delete updatedSpecifications[key];
+    setFormData((prev) => ({
+      ...prev,
+      specifications: updatedSpecifications,
     }));
   };
 
@@ -79,7 +103,7 @@ const EditProduct = () => {
             </div>
           </Link>
         </div>
-        <form className="my-5">
+        <form className="my-5" onSubmit={handleSubmit}>
           <div className="flex w-full gap-5 my-1">
             <InputField
               label="Product Name"
@@ -161,22 +185,76 @@ const EditProduct = () => {
             name="imageUrl"
             value={imageUrl}
             type="text"
+            onChange={handleChange}
           />
-          <div className="flex justify-between my-4">
-            <InputField
-              label="Specification"
-              onChange={handleChange}
-              // name=""
-              value={name}
-              type="text"
-              placeholder="Key"
-              extraStyle="w-[46%]"
-            />
-            <InputField placeholder="Value" extraStyle="mt-6 w-[46%]" />
-            <ThemeButton
-              text="Add"
-              extraStyle="bg-secondaryColor flex my-auto mt-6 !text-[14px] items-end justify-between"
-            />
+
+          <div className="my-4">
+            <p className="text-[14px] font-semibold text-secondaryColor">
+              Specifications
+            </p>
+            <div className="flex justify-between">
+              <InputField
+                placeholder="Key"
+                value={specKey}
+                onChange={(e) => setSpecKey(e.target.value)}
+                extraStyle="w-[46%]"
+              />
+              <InputField
+                placeholder="Value"
+                value={specVal}
+                onChange={(e) => setSpecVal(e.target.value)}
+                extraStyle="w-[46%]"
+              />
+              <ThemeButton
+                text="Add"
+                extraStyle="bg-secondaryColor w-[5%] text-center flex my-auto !text-[14px] justify-between"
+                onClick={handleAddSpecification}
+              />
+            </div>
+            {/* Render specifications */}
+            <div className="mt-4">
+              {Object.entries(specifications).map(([key, val]) => (
+                <div key={key} className="flex justify-between my-2">
+                  <InputField
+                    placeholder="Key"
+                    value={key}
+                    onChange={(e) => {
+                      const newKey = e.target.value;
+                      const newVal = specifications[key];
+                      handleRemoveSpecification(key);
+                      setFormData((prev) => ({
+                        ...prev,
+                        specifications: {
+                          ...prev.specifications,
+                          [newKey]: newVal,
+                        },
+                      }));
+                    }}
+                    extraStyle="w-[46%]"
+                  />
+                  <InputField
+                    placeholder="Value"
+                    value={val}
+                    onChange={(e) => {
+                      const newVal = e.target.value;
+                      setFormData((prev) => ({
+                        ...prev,
+                        specifications: {
+                          ...prev.specifications,
+                          [key]: newVal,
+                        },
+                      }));
+                    }}
+                    extraStyle="w-[46%]"
+                  />
+                  <AiOutlineClose
+                    color="red"
+                    className="my-auto w-[5%] cursor-pointer"
+                    onClick={() => handleRemoveSpecification(key)}
+                  />
+                </div>
+              ))}
+            </div>
           </div>
           <div className="flex justify-between !text-[14px] mt-5">
             <ThemeButton
@@ -187,7 +265,7 @@ const EditProduct = () => {
             <Link href="/layout/category/product">
               <ThemeButton
                 text="Cancel"
-                extraStyle="bg-none !text-[14px] !text-secondaryColor border-borderColor  border-[1px]"
+                extraStyle="bg-none !text-[14px] !text-secondaryColor border-borderColor border-[1px]"
               />
             </Link>
           </div>
